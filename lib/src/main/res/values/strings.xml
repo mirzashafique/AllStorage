@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Lib</string>
+    //permissions
+    <string name="storage_access_required">Storage access is required to get the Content preview.</string>
+    <string name="ok">OK</string>
+    <string name="camera_permission_not_available">Permission is not available. Requesting storage permission.</string>
+    <string name="storage_permission_available">Storage permission is available. Starting preview.</string>
+    <string name="storage_permission_granted">Storage permission was granted. Starting preview.</string>
+    <string name="storage_permission_denied">Storage permission request was denied.</string>
+    <string name="storage_unavailable"><b>Storage could not be opened.</b>\nThis occurs when the storage is not available (for example it is already in use) or if the system has denied access (for example when storage access has been disabled).</string>
+</resources>
