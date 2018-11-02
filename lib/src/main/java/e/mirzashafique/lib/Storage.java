@@ -17,6 +17,7 @@ public class Storage implements ActivityCompat.OnRequestPermissionsResultCallbac
 
     public static void method(Context mcontext) {
         context = mcontext;
+        showStoragePreview();
     }
 
     @Override
@@ -39,7 +40,7 @@ public class Storage implements ActivityCompat.OnRequestPermissionsResultCallbac
         // END_INCLUDE(onRequestPermissionsResult)
     }
 
-    private void showStoragePreview() {
+    private static void showStoragePreview() {
         // BEGIN_INCLUDE(startStorageActivity)
         // Check if the Camera permission has been granted
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -54,7 +55,7 @@ public class Storage implements ActivityCompat.OnRequestPermissionsResultCallbac
 
     }
 
-    private void requestStoragePermission() {
+    private static void requestStoragePermission() {
         // Permission has not been granted and must be requested.
         if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context,
                 Manifest.permission.READ_EXTERNAL_STORAGE)) {
@@ -77,7 +78,7 @@ public class Storage implements ActivityCompat.OnRequestPermissionsResultCallbac
     }
 
 
-    private void startStorageActivity() {
+    private static void startStorageActivity() {
         //  startActivity(new Intent(getApplicationContext(), AllMediaStorageActivity.class));
         context.startActivity(new Intent(context, AllStorageActivity.class));
     }
