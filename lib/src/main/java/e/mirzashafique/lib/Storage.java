@@ -85,7 +85,7 @@ public abstract class Storage implements ActivityCompat.OnRequestPermissionsResu
 
     public Intent getIntent(Context context) {
         //ImagePickerConfig config = ConfigUtils.checkConfig(getConfig());
-        Intent intent = new Intent(context, AllStorageActivity.class);
+        Intent intent = new Intent(activity, AllStorageActivity.class);
         intent.putExtra("all-storage-actvity", config);
         //intent.putExtra(ImagePickerConfig.class.getSimpleName(), config);
         return intent;
@@ -101,12 +101,12 @@ public abstract class Storage implements ActivityCompat.OnRequestPermissionsResu
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission has been granted. Start camera preview Activity.
 
-                Toast.makeText(context, R.string.storage_permission_granted, Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, R.string.storage_permission_granted, Toast.LENGTH_LONG).show();
                 startStorageActivity(activity);
             } else {
                 // Permission request was denied.
 
-                Toast.makeText(context, R.string.storage_permission_denied, Toast.LENGTH_LONG).show();
+                Toast.makeText(activity, R.string.storage_permission_denied, Toast.LENGTH_LONG).show();
             }
         }
         // END_INCLUDE(onRequestPermissionsResult)
@@ -115,7 +115,7 @@ public abstract class Storage implements ActivityCompat.OnRequestPermissionsResu
     private static void showStoragePreview(Activity activity) {
         // BEGIN_INCLUDE(startStorageActivity)
         // Check if the Camera permission has been granted
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)
+        if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
             // Permission is already available, start camera preview
 
@@ -129,22 +129,22 @@ public abstract class Storage implements ActivityCompat.OnRequestPermissionsResu
 
     private static void requestStoragePermission() {
         // Permission has not been granted and must be requested.
-        if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context,
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
                 Manifest.permission.READ_EXTERNAL_STORAGE)) {
             // Provide an additional rationale to the user if the permission was not granted
             // and the user would benefit from additional context for the use of the permission.
             // Display a SnackBar with cda button to request the missing permission.
-            Toast.makeText(context, R.string.storage_access_required, Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, R.string.storage_access_required, Toast.LENGTH_LONG).show();
             // Request the permission
-            ActivityCompat.requestPermissions((Activity) context,
+            ActivityCompat.requestPermissions((Activity) activity,
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     PERMISSION_REQUEST_STORAGE);
 
         } else {
-            Toast.makeText(context, R.string.storage_unavailable, Toast.LENGTH_LONG).show();
+            Toast.makeText(activity, R.string.storage_unavailable, Toast.LENGTH_LONG).show();
 
             // Request the permission. The result will be received in onRequestPermissionResult().
-            ActivityCompat.requestPermissions((Activity) context,
+            ActivityCompat.requestPermissions(activity,
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_STORAGE);
         }
     }
