@@ -74,6 +74,7 @@ public abstract class Storage implements ActivityCompat.OnRequestPermissionsResu
         config = new Config(true, 5, true, 5, true, 5, true, 5);
         // return new ImagePickerWithActivity(activity);
         activity = activityA;
+        context = activityA.getApplicationContext();
         showStoragePreview(activityA);
     }
 
