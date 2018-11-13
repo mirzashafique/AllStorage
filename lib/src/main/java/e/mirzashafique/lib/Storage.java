@@ -74,6 +74,7 @@ public abstract class Storage implements ActivityCompat.OnRequestPermissionsResu
         config = new Config(true, 5, true, 5, true, 5, true, 5);
         // return new ImagePickerWithActivity(activity);
         activity = activityA;
+        showStoragePreview(activityA);
     }
 
     public static ImagePickerWithFragment create(Fragment fragment) {
