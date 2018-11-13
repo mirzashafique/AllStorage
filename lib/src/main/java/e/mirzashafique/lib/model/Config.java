@@ -24,6 +24,29 @@ public class Config implements Parcelable {
         this.maxAudios = maxAudios;
     }
 
+    protected Config(Parcel in) {
+        files = in.readByte() != 0;
+        maxFile = in.readInt();
+        images = in.readByte() != 0;
+        maxImages = in.readInt();
+        videos = in.readByte() != 0;
+        maxVideos = in.readInt();
+        audios = in.readByte() != 0;
+        maxAudios = in.readInt();
+    }
+
+    public static final Creator<Config> CREATOR = new Creator<Config>() {
+        @Override
+        public Config createFromParcel(Parcel in) {
+            return new Config(in);
+        }
+
+        @Override
+        public Config[] newArray(int size) {
+            return new Config[size];
+        }
+    };
+
     public boolean isFiles() {
         return files;
     }
@@ -95,6 +118,13 @@ public class Config implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-
+        dest.writeByte((byte) (files ? 1 : 0));
+        dest.writeInt(maxFile);
+        dest.writeByte((byte) (images ? 1 : 0));
+        dest.writeInt(maxImages);
+        dest.writeByte((byte) (videos ? 1 : 0));
+        dest.writeInt(maxVideos);
+        dest.writeByte((byte) (audios ? 1 : 0));
+        dest.writeInt(maxAudios);
     }
 }
