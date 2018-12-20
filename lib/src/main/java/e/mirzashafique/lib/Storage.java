@@ -5,121 +5,85 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.icu.text.UnicodeSetSpanner;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.view.View;
 import android.widget.Toast;
 
+import java.util.List;
+
 import e.mirzashafique.lib.model.Config;
+import e.mirzashafique.lib.model.SelectedFiles;
+import e.mirzashafique.lib.model.SingletonList;
 
 public abstract class Storage implements ActivityCompat.OnRequestPermissionsResultCallback {
+
     private static final int PERMISSION_REQUEST_STORAGE = 0;
-    public static Context context;
+    private static final int ACTIVITY_REQUEST_CODE = 121;
+
+    //Variables
+    public static Fragment fragment;
     private static Config config;
     public static Activity activity;
-    private static boolean isStartActivity = false;
-
-//    public static void method(Context mcontext) {
-//        context = mcontext;
-//        showStoragePreview();
-//    }
 
     public abstract void start();
 
-    public abstract void start(int requestCode);
-
-    public static class ImagePickerWithActivity extends Storage {
-
+    //Nested Classes
+    public static class StorageAccessWithActivity extends Storage {
         private Activity activity;
 
-        public ImagePickerWithActivity(Activity activity) {
+        public StorageAccessWithActivity(Activity activity) {
             this.activity = activity;
-            // init();
         }
 
         @Override
-        public void start(int requestCode) {
-            activity.startActivityForResult(getIntent(activity), requestCode);
+        public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         }
 
         @Override
         public void start() {
-            activity.startActivityForResult(getIntent(activity), 121);
+            showStoragePreview(activity);
         }
     }
 
-    public static class ImagePickerWithFragment extends Storage {
-
+    public static class StorageAccessWithFragment extends Storage {
         private Fragment fragment;
 
-        public ImagePickerWithFragment(Fragment fragment) {
+        public StorageAccessWithFragment(Fragment fragment) {
             this.fragment = fragment;
-            //  init();
-        }
-
-        @Override
-        public void start(int requestCode) {
-            fragment.startActivityForResult(getIntent(fragment.getActivity()), requestCode);
         }
 
         @Override
         public void start() {
-            fragment.startActivityForResult(getIntent(fragment.getActivity()), 1);
+            Storage.showStoragePreview(fragment.getActivity());
+        }
+
+        @Override
+        public void onRequestPermissionsResult(int i, @NonNull String[] strings, @NonNull int[] ints) {
+
         }
     }
 
-    public static void create(Activity activityA) {
-        config = new Config(true, 5, true, 5, true, 5, true, 5);
-        // return new ImagePickerWithActivity(activity);
+    //Initialization and permissions
+    public static StorageAccessWithActivity create(Activity activityA) {
+        config = new Config(false, 5, false, 5, false, 5, false, 5);
         activity = activityA;
-        context = activityA.getApplicationContext();
-        showStoragePreview(activityA);
+        return new StorageAccessWithActivity(activityA);
     }
 
-    public static ImagePickerWithFragment create(Fragment fragment) {
-        config = new Config(true, 5, true, 5, true, 5, true, 5);
-        return new ImagePickerWithFragment(fragment);
+    public static StorageAccessWithFragment create(Fragment fragmentA) {
+        config = new Config(false, 5, false, 5, false, 5, false, 5);
+        fragment = fragmentA;
+        return new StorageAccessWithFragment(fragment);
     }
 
-    public Intent getIntent(Context context) {
-        //ImagePickerConfig config = ConfigUtils.checkConfig(getConfig());
-        Intent intent = new Intent(activity, AllStorageActivity.class);
-        intent.putExtra("all-storage-actvity", config);
-        //intent.putExtra(ImagePickerConfig.class.getSimpleName(), config);
-        return intent;
-    }
-
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        // BEGIN_INCLUDE(onRequestPermissionsResult)
-        if (requestCode == PERMISSION_REQUEST_STORAGE) {
-            // Request for camera permission.
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission has been granted. Start camera preview Activity.
-
-                Toast.makeText(activity, R.string.storage_permission_granted, Toast.LENGTH_LONG).show();
-                startStorageActivity(activity);
-            } else {
-                // Permission request was denied.
-
-                Toast.makeText(activity, R.string.storage_permission_denied, Toast.LENGTH_LONG).show();
-            }
-        }
-        // END_INCLUDE(onRequestPermissionsResult)
-    }
 
     private static void showStoragePreview(Activity activity) {
-        // BEGIN_INCLUDE(startStorageActivity)
-        // Check if the Camera permission has been granted
+        // Check if the Storage permission has been granted
         if (ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE)
                 == PackageManager.PERMISSION_GRANTED) {
-            // Permission is already available, start camera preview
-
-            startStorageActivity(activity);
+            // Permission is already available, start storage preview
+            mStart();
         } else {
             // Permission is missing and must be requested.
             requestStoragePermission();
@@ -129,30 +93,79 @@ public abstract class Storage implements ActivityCompat.OnRequestPermissionsResu
 
     private static void requestStoragePermission() {
         // Permission has not been granted and must be requested.
-        if (ActivityCompat.shouldShowRequestPermissionRationale(activity,
-                Manifest.permission.READ_EXTERNAL_STORAGE)) {
-            // Provide an additional rationale to the user if the permission was not granted
-            // and the user would benefit from additional context for the use of the permission.
-            // Display a SnackBar with cda button to request the missing permission.
-            Toast.makeText(activity, R.string.storage_access_required, Toast.LENGTH_LONG).show();
-            // Request the permission
-            ActivityCompat.requestPermissions((Activity) activity,
-                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    PERMISSION_REQUEST_STORAGE);
+        if (ActivityCompat.shouldShowRequestPermissionRationale(activity, Manifest.permission.READ_EXTERNAL_STORAGE)) {
 
+            ActivityCompat.requestPermissions(activity, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_STORAGE);
         } else {
-            Toast.makeText(activity, R.string.storage_unavailable, Toast.LENGTH_LONG).show();
-
-            // Request the permission. The result will be received in onRequestPermissionResult().
+            Toast.makeText(activity, R.string.storage_access_required, Toast.LENGTH_LONG).show();
             ActivityCompat.requestPermissions(activity,
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_STORAGE);
         }
     }
 
+    public static void mStart() {
+        activity.startActivityForResult(getIntent(activity), ACTIVITY_REQUEST_CODE);
+    }
 
-    private static ImagePickerWithActivity startStorageActivity(Activity activity) {
-        //  startActivity(new Intent(getApplicationContext(), AllMediaStorageActivity.class));
-        //   context.startActivity(new Intent(context, AllStorageActivity.class));
-        return new ImagePickerWithActivity(activity);
+    public static Intent getIntent(Context context) {
+        Intent intent = new Intent(context, AllStorageActivity.class);
+        intent.putExtra("all-storage-actvity", config);
+        return intent;
+    }
+
+    //Configration
+    public Storage all() {
+        config = new Config(true, 5, true, 5, true, 5, true, 5);
+        return this;
+    }
+
+    public Storage showFiles(int maxFilesSelection) {
+        config.setFiles(true);
+        config.setMaxFile(maxFilesSelection);
+        return this;
+    }
+
+    public Storage showImages(int maxImagesSelection) {
+        config.setImages(true);
+        config.setMaxImages(maxImagesSelection);
+        return this;
+    }
+
+    public Storage showOnlyAudios(int maxAudioSelection) {
+        config.setAudios(true);
+        config.setMaxAudios(maxAudioSelection);
+        return this;
+    }
+
+    public Storage showOnlyVideos(int maxVideoSelection) {
+        config.setVideos(true);
+        config.setMaxVideos(maxVideoSelection);
+        return this;
+    }
+
+
+    // Helper
+
+
+    public static boolean shouldHandle(int requestCode, int resultCode, Intent data) {
+        return resultCode == Activity.RESULT_OK
+                && requestCode == ACTIVITY_REQUEST_CODE
+                && data != null;
+    }
+
+    public static void handlePermissions(int requestCode, int grantResults[]) {
+        if (requestCode == PERMISSION_REQUEST_STORAGE) {
+            // Request for camera permission.
+            if (grantResults.length == 1 && grantResults[PERMISSION_REQUEST_STORAGE] == PackageManager.PERMISSION_GRANTED) {
+                mStart();
+            } else {
+                // Permission request was denied.
+                Toast.makeText(activity, R.string.storage_permission_denied, Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    public static List<SelectedFiles> getResults() {
+        return SingletonList.getmInstence().getSelectedFiles();
     }
 }
