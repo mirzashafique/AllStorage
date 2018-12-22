@@ -20,6 +20,7 @@ import android.widget.VideoView;
 import java.util.ArrayList;
 import java.util.List;
 
+import e.mirzashafique.lib.fragments.CameraFragment;
 import e.mirzashafique.lib.fragments.FilesFragment;
 import e.mirzashafique.lib.fragments.ImagesFragment;
 import e.mirzashafique.lib.fragments.MusicFragment;
@@ -98,6 +99,14 @@ public class AllStorageActivity extends AppCompatActivity implements SubmitActio
     private void setupViewPager(ViewPager viewPager) {
         SectionsPagerAdapter2 adapter = new SectionsPagerAdapter2(getSupportFragmentManager());
 
+        if (config.isCamera()) {
+            CameraFragment cameraFragment = new CameraFragment();
+            cameraFragment.setSubmitAction(this);
+            Bundle bundle = new Bundle();
+            bundle.putInt("selection-size", config.getMaxCamera());
+            cameraFragment.setArguments(bundle);
+            adapter.addFragment(cameraFragment, "Camera");
+        }
         if (config.isFiles()) {
             FilesFragment filesFragment = new FilesFragment();
             filesFragment.setSubmitAction(this);

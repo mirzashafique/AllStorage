@@ -100,7 +100,6 @@ public class ImagesFragment extends Fragment implements SubmitAction {
 
         while (cursor.moveToNext()) {
             listOfAllImages.add(new SelectedFiles(cursor.getString(fileId), cursor.getString(fileName), cursor.getString(fileUri), "image", getFileSize(cursor.getLong(fileSize)), cursor.getString(fileDate), "", false));
-
         }
         return listOfAllImages;
     }

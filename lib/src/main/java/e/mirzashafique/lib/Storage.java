@@ -66,13 +66,13 @@ public abstract class Storage implements ActivityCompat.OnRequestPermissionsResu
 
     //Initialization and permissions
     public static StorageAccessWithActivity create(Activity activityA) {
-        config = new Config(false, 5, false, 5, false, 5, false, 5);
+        config = new Config(false, 5, false, 5, false, 5, false, 5, false, 5);
         activity = activityA;
         return new StorageAccessWithActivity(activityA);
     }
 
     public static StorageAccessWithFragment create(Fragment fragmentA) {
-        config = new Config(false, 5, false, 5, false, 5, false, 5);
+        config = new Config(false, 5, false, 5, false, 5, false, 5, false, 5);
         fragment = fragmentA;
         return new StorageAccessWithFragment(fragment);
     }
@@ -115,7 +115,13 @@ public abstract class Storage implements ActivityCompat.OnRequestPermissionsResu
 
     //Configration
     public Storage all() {
-        config = new Config(true, 5, true, 5, true, 5, true, 5);
+        config = new Config(true, 5, true, 5, true, 5, true, 5, true, 5);
+        return this;
+    }
+
+    public Storage showCamera(int maxCameraSelection) {
+        config.setCamera(true);
+        config.setMaxCamera(maxCameraSelection);
         return this;
     }
 

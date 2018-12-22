@@ -4,6 +4,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Config implements Parcelable {
+
+    private boolean camera;
+    private int maxCamera;
     private boolean files;
     private int maxFile;
     private boolean images;
@@ -13,7 +16,9 @@ public class Config implements Parcelable {
     private boolean audios;
     private int maxAudios;
 
-    public Config(boolean files, int maxFile, boolean images, int maxImages, boolean videos, int maxVideos, boolean audios, int maxAudios) {
+    public Config(boolean camera, int maxCamera, boolean files, int maxFile, boolean images, int maxImages, boolean videos, int maxVideos, boolean audios, int maxAudios) {
+        this.camera = camera;
+        this.maxCamera = maxCamera;
         this.files = files;
         this.maxFile = maxFile;
         this.images = images;
@@ -25,6 +30,8 @@ public class Config implements Parcelable {
     }
 
     protected Config(Parcel in) {
+        camera = in.readByte() != 0;
+        maxCamera = in.readInt();
         files = in.readByte() != 0;
         maxFile = in.readInt();
         images = in.readByte() != 0;
@@ -111,6 +118,22 @@ public class Config implements Parcelable {
         this.maxAudios = maxAudios;
     }
 
+    public boolean isCamera() {
+        return camera;
+    }
+
+    public void setCamera(boolean camera) {
+        this.camera = camera;
+    }
+
+    public int getMaxCamera() {
+        return maxCamera;
+    }
+
+    public void setMaxCamera(int maxCamera) {
+        this.maxCamera = maxCamera;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -118,6 +141,8 @@ public class Config implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeByte((byte) (camera ? 1 : 0));
+        dest.writeInt(maxCamera);
         dest.writeByte((byte) (files ? 1 : 0));
         dest.writeInt(maxFile);
         dest.writeByte((byte) (images ? 1 : 0));
