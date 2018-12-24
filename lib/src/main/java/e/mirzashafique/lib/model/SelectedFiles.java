@@ -1,19 +1,22 @@
 package e.mirzashafique.lib.model;
 
+import android.net.Uri;
+
 public class SelectedFiles {
     private String fileId;
     private String fileName;
-    private String fileUri;
+    private String filePath;
     private String fileType;
     private String fileSize;
     private String fileDate;
     private String fileDuration;
     private boolean selectStatus;
+    private Uri fileUri;
 
-    public SelectedFiles(String fileId, String fileName, String fileUri, String fileType, String fileSize, String fileDate, String fileDuration, boolean selectStatus) {
+    public SelectedFiles(String fileId, String fileName, String filePath, String fileType, String fileSize, String fileDate, String fileDuration, boolean selectStatus) {
         this.fileId = fileId;
         this.fileName = fileName;
-        this.fileUri = fileUri;
+        this.filePath = filePath;
         this.fileType = fileType;
         this.fileSize = fileSize;
         this.fileDate = fileDate;
@@ -37,12 +40,12 @@ public class SelectedFiles {
         this.fileName = fileName;
     }
 
-    public String getFileUri() {
-        return fileUri;
+    public String getFilePath() {
+        return filePath;
     }
 
-    public void setFileUri(String fileUri) {
-        this.fileUri = fileUri;
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
     }
 
     public String getFileType() {
@@ -84,4 +87,13 @@ public class SelectedFiles {
     public void setSelectStatus(boolean selectStatus) {
         this.selectStatus = selectStatus;
     }
+
+    public Uri getFileUri() {
+        return fileUri;
+    }
+
+    public void setFileUri(Uri fileUri) {
+        this.fileUri = fileUri;
+    }
+
 }

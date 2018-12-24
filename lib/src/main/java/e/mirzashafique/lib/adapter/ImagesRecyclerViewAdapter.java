@@ -69,7 +69,7 @@ public class ImagesRecyclerViewAdapter extends RecyclerView.Adapter<ImagesRecycl
             Bitmap curThumb = MediaStore.Video.Thumbnails.getThumbnail(crThumb, Integer.valueOf(current.getFileId()), MediaStore.Video.Thumbnails.MINI_KIND, options);
             holder.currentImage.setImageBitmap(curThumb);
         } else {
-            Glide.with(context).load(current.getFileUri()).into(holder.currentImage);
+            Glide.with(context).load(current.getFilePath()).into(holder.currentImage);
         }
 
 

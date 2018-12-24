@@ -13,20 +13,24 @@ import e.mirzashafique.lib.Storage;
 
 
 public class BlankFragment extends Fragment {
-Button button;
+    Button button;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_blank, container, false);
 
-        button=view.findViewById(R.id.fragment_button);
+        button = view.findViewById(R.id.fragment_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Storage.create(getActivity()).showFiles(5).showImages(2).start();
+
+                Storage.create(getActivity()).all().start();  // Select All Media From Fragment and you will get Result in its Parent Activity.
+
             }
         });
         return view;
+
     }
 
 }

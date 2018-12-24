@@ -1,19 +1,12 @@
 package e.mirzashafique.lib.adapter;
 
-import android.content.ContentResolver;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -59,19 +52,19 @@ public class CameraImagesAdapter extends RecyclerView.Adapter<CameraImagesAdapte
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, final int i) {
         final SelectedFiles current = data.get(i);
-        Glide.with(context).load(current.getFileUri()).into(holder.currentImage);
+        Glide.with(context).load(current.getFilePath()).into(holder.currentImage);
         holder.cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
                 for (int i1 = 0; i1 < SingletonList.getmInstence().getSelectedFiles().size(); i1++) {
-                    if (current.getFileUri().equals(SingletonList.getmInstence().getSelectedFiles().get(i1).getFileUri())) {
+                    if (current.getFilePath().equals(SingletonList.getmInstence().getSelectedFiles().get(i1).getFilePath())) {
                         SingletonList.getmInstence().getSelectedFiles().remove(i1);
                         submitAction.actionMethod();
                         Toast.makeText(context, "Image deleted", Toast.LENGTH_SHORT).show();
                         data.remove(i);
-                        File file = new File(current.getFileUri());
+                        File file = new File(current.getFilePath());
                         if (file.exists()) {
                             file.delete();
                         }
