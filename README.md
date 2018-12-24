@@ -22,9 +22,11 @@ src="https://user-images.githubusercontent.com/36470821/50398533-2cd49c80-079a-1
   <div class="column">
     <img src="https://user-images.githubusercontent.com/36470821/50398673-36123900-079b-11e9-815a-8245cd555325.jpg" height="460" width="284"/>
   </div>
-  <div class="column">
+	
+<div class="column">
     <img src=" https://user-images.githubusercontent.com/36470821/50398720-a15c0b00-079b-11e9-93ef-a4631565390d.jpg" height="460" width="284"/>
   </div>
+  
 </div>
   
   
@@ -49,8 +51,7 @@ And add this to your module's `build.gradle`
 
 ```groovy
 dependencies {
-
-	
+ 	implementation 'com.github.pakbachelors:AllStorage:1.0.0'
 }
 ```
 
@@ -158,3 +159,22 @@ Storage.create(context)
 .start(); // Could be Activity, Fragment, Support Fragment 
 
 ```
+
+
+# Contributions
+
+
+
+
+# Modification License
+
+```
+Copyright (c) 2018 PakBachelors
+
+The Permission is granted, free of charge, to anyone obtaining a copy of this software, to deal in the Software without
+any restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, and/or sell
+copies of the Software. 
+For suggestions or improvements in the software, feel free to contact at mirza.shf121@gmail.com
+
+
+
