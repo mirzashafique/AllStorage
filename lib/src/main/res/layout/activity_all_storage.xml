@@ -39,22 +39,30 @@
                     android:textColor="#ffffff"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/submit_button"
+                <android.support.v7.widget.CardView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="end|center_vertical"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:elevation="10dp"
-                    android:gravity="center"
-                    android:padding="10dp"
-                    android:text="Submit"
-                    android:textAppearance="?android:textAppearanceMedium"
-                    android:textColor="#ffffff"
-                    android:textStyle="bold"
-                    android:visibility="gone"
-                    tools:ignore="NewApi" />
+                    android:layout_marginRight="10dp"
+                    android:background="#ffffff">
+
+                    <TextView
+                        android:id="@+id/submit_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:elevation="10dp"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:padding="10dp"
+                        android:text="Submit"
+                        android:textAppearance="?android:textAppearanceMedium"
+                        android:textColor="#000000"
+                        android:textStyle="bold"
+                        android:visibility="gone"
+                        tools:ignore="NewApi,UnusedAttribute" />
+                </android.support.v7.widget.CardView>
             </FrameLayout>
 
 
