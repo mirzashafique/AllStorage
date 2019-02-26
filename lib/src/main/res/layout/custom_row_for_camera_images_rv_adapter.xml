@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="80dp"
     android:layout_marginLeft="10dp"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_marginStart="10dp">
 
     <ImageView
         android:id="@+id/images"
@@ -16,10 +17,11 @@
         android:layout_width="35dp"
         android:layout_height="35dp"
         android:layout_gravity="end"
-        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:background="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:elevation="5dp"
         android:padding="10dp"
         android:src="@drawable/cancel_picture"
-        tools:ignore="NewApi" />
+        tools:ignore="NewApi,UnusedAttribute"
+        android:focusable="true" />
 </FrameLayout>
