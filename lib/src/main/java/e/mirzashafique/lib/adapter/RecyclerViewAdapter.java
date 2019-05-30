@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import java.util.List;
 
 import e.mirzashafique.lib.R;
@@ -33,16 +32,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private String fileType;
     private int currentSelectedFiles;
 
-    public void setSubmitAction(SubmitAction submitAction) {
-        this.submitAction = submitAction;
-    }
-
     public RecyclerViewAdapter(Context context, List<SelectedFiles> data, int maxSize, String fileType) {
         this.context = context;
         this.data = data;
         this.maxSize = maxSize;
         this.fileType = fileType;
         inflater = LayoutInflater.from(context);
+    }
+
+    public void setSubmitAction(SubmitAction submitAction) {
+        this.submitAction = submitAction;
     }
 
     @NonNull
@@ -58,14 +57,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         final SelectedFiles current = data.get(i);
         holder.fileName.setText(current.getFileName());
         holder.fileUri.setText(current.getFileSize());
-        if (current.getFileType().equals(".csv")) {
-            holder.fileIcon.setImageResource(R.drawable.pdf);
+        if (current.getFileType().equals(".xlsx")) {
+            holder.fileIcon.setImageResource(R.drawable.xlsx);
         } else if (current.getFileType().equals(".pdf")) {
             holder.fileIcon.setImageResource(R.drawable.pdf);
         } else if (current.getFileType().equals(".zip")) {
             holder.fileIcon.setImageResource(R.drawable.zip);
-        } else if (current.getFileType().equals(".ppt")) {
-            holder.fileIcon.setImageResource(R.drawable.ppt);
+        } else if (current.getFileType().equals(".pptx")) {
+            holder.fileIcon.setImageResource(R.drawable.pptx);
+        } else if (current.getFileType().equals(".docx")) {
+            holder.fileIcon.setImageResource(R.drawable.docx);
         } else if (current.getFileType().equals(".txt")) {
             holder.fileIcon.setImageResource(R.drawable.txt);
         } else if (current.getFileType().equals("audio")) {
@@ -92,8 +93,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
                     currentSelectedFiles = 0;
                     if (fileType.contains(".")) {
-                        for(int i=0;i<SingletonList.getmInstence().getSelectedFiles().size();i++){
-                            if(SingletonList.getmInstence().getSelectedFiles().get(i).getFileType().contains(".")){
+                        for (int i = 0; i < SingletonList.getmInstence().getSelectedFiles().size(); i++) {
+                            if (SingletonList.getmInstence().getSelectedFiles().get(i).getFileType().contains(".")) {
                                 currentSelectedFiles++;
                                 if (currentSelectedFiles > maxSize) {
                                     holder.checkBox.setChecked(false);
@@ -105,8 +106,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                             }
                         }
                     } else {
-                        for(int i=0;i<SingletonList.getmInstence().getSelectedFiles().size();i++){
-                            if(SingletonList.getmInstence().getSelectedFiles().get(i).getFileType().equals(fileType)){
+                        for (int i = 0; i < SingletonList.getmInstence().getSelectedFiles().size(); i++) {
+                            if (SingletonList.getmInstence().getSelectedFiles().get(i).getFileType().equals(fileType)) {
                                 currentSelectedFiles++;
                                 if (currentSelectedFiles > maxSize) {
                                     holder.checkBox.setChecked(false);
@@ -128,7 +129,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
 
                 if (current.isSelectStatus()) {

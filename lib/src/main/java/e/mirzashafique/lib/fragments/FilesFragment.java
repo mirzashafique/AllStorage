@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-
 import java.io.File;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -35,12 +34,22 @@ public class FilesFragment extends Fragment implements SubmitAction {
     private ProgressBar progressBar;
     private int selectionSize;
 
-    public void setSubmitAction(SubmitAction submitAction) {
-        this.submitAction = submitAction;
-    }
-
     public FilesFragment() {
         // Required empty public constructor
+    }
+
+    public static String getFileSize(long size) {
+        if (size <= 0)
+            return "0";
+
+        final String[] units = new String[]{"B", "KB", "MB", "GB", "TB"};
+        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
+
+        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
+    }
+
+    public void setSubmitAction(SubmitAction submitAction) {
+        this.submitAction = submitAction;
     }
 
     @Override
@@ -48,10 +57,10 @@ public class FilesFragment extends Fragment implements SubmitAction {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_files, container, false);
-        selectionSize=getArguments().getInt("selection-size");
+        selectionSize = getArguments().getInt("selection-size");
         path = Environment.getExternalStorageDirectory().toString();
         data = new ArrayList<>();
-        adapter = new RecyclerViewAdapter(getActivity(), data,selectionSize,".");
+        adapter = new RecyclerViewAdapter(getActivity(), data, selectionSize, ".");
         adapter.setSubmitAction(this);
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -106,17 +115,19 @@ public class FilesFragment extends Fragment implements SubmitAction {
                 } catch (Exception e) {
                 }
 
-            } else if (file.getName().endsWith(".csv") || file.getName().endsWith(".pdf") || file.getName().endsWith(".zip") || file.getName().endsWith(".ppt") || file.getName().endsWith(".txt")) {
+            } else if (file.getName().endsWith(".xlsx") || file.getName().endsWith(".docx") || file.getName().endsWith(".pdf") || file.getName().endsWith(".zip") || file.getName().endsWith(".pptx") || file.getName().endsWith(".txt")) {
                 inFiles.add(file);
                 String fileType = null;
-                if (file.getName().endsWith(".csv")) {
-                    fileType = ".csv";
+                if (file.getName().endsWith(".xlsx")) {
+                    fileType = ".xlsx";
                 } else if (file.getName().endsWith(".pdf")) {
                     fileType = ".pdf";
+                } else if (file.getName().endsWith(".docx")) {
+                    fileType = ".docx";
                 } else if (file.getName().endsWith(".zip")) {
                     fileType = ".zip";
-                } else if (file.getName().endsWith(".ppt")) {
-                    fileType = ".ppt";
+                } else if (file.getName().endsWith(".pptx")) {
+                    fileType = ".pptx";
                 } else if (file.getName().endsWith(".txt")) {
                     fileType = ".txt";
                 }
@@ -126,16 +137,6 @@ public class FilesFragment extends Fragment implements SubmitAction {
             }
         }
         return inFiles;
-    }
-
-    public static String getFileSize(long size) {
-        if (size <= 0)
-            return "0";
-
-        final String[] units = new String[]{"B", "KB", "MB", "GB", "TB"};
-        int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
-
-        return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
 
     @Override
